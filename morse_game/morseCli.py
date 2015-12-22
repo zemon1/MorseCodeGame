@@ -1,5 +1,6 @@
 # Jeff Haak
 # A CLI implementation of the Morse Code game
+import os
 from morseGame import MorseGame
 
 
@@ -29,6 +30,7 @@ class MorseCLI:
             else:
                 choice = raw_input("I need an integer that is in the list.  I can be very persistent.\n")
 
+            self.clearScreen()
             print "Want to play again?"
             self.printGames(games)
             choice = raw_input()
@@ -39,6 +41,7 @@ class MorseCLI:
         return False
 
     def playGame(self, gameChoice):
+        self.clearScreen()
 
         if gameChoice == "Encoder":
             self.encoder()
@@ -54,6 +57,7 @@ class MorseCLI:
             self.testKnowledge()
 
     def encoder(self):
+        self.clearScreen()
         aString = raw_input("I am really good at Morse Code!  What would you like me to translate?\n")
         mString = self._morseGame.encode(aString)
         print "Hmm, let me think about that a second... hmm... Carry the 1... annnnddddddd, here you go"
@@ -61,6 +65,7 @@ class MorseCLI:
         print "\n"
 
     def decoder(self):
+        self.clearScreen()
         mString = raw_input("I am really good at Morse Code!  What would you like me to translate?\n")
         aString = self._morseGame.decode(mString)
         print "Oh, that is a good one!  Here you go:"
@@ -68,6 +73,7 @@ class MorseCLI:
         print "\n"
 
     def learnLetter(self):
+        self.clearScreen()
         print "When you are done, type N or -."
 
         while True:
@@ -80,6 +86,8 @@ class MorseCLI:
             choice = raw_input()
             if self.exitCondition(choice):
                 break
+
+            self.clearScreen()
 
     def testLetter(self):
         print "I'll give you the letter, you give me the morse code!  You get 100pts if you get it on the first try" \
@@ -104,6 +112,7 @@ class MorseCLI:
                     print "Nice job!  First try!"
                     self._morseGame.increaseScore(100)
                     gotIt = True
+                    self.clearScreen()
                     break
                 elif response.strip() == entry[1]:
                     print "There we go!"
@@ -114,6 +123,7 @@ class MorseCLI:
                         self._morseGame.increaseScore(25)
 
                     gotIt = True
+                    self.clearScreen()
                     break
                 else:
                     count += 1
@@ -151,6 +161,7 @@ class MorseCLI:
                     print "Nice job!  First try!"
                     self._morseGame.increaseScore(100)
                     gotIt = True
+                    self.clearScreen()
                     break
                 elif response.strip() == entry[1]:
                     print "There we go!"
@@ -160,6 +171,7 @@ class MorseCLI:
                     elif count == 2:
                         self._morseGame.increaseScore(25)
                     gotIt = True
+                    self.clearScreen()
                     break
                 else:
                     count += 1
@@ -193,11 +205,13 @@ class MorseCLI:
                 response = raw_input().upper()
                 if response.strip().lower() == "done":
                     quitGame = True
+                    self.clearScreen()
                     break
                 elif response.strip() == entry[1] and count == 0:
                     print "Nice job!  First try!"
                     self._morseGame.increaseScore(100)
                     gotIt = True
+                    self.clearScreen()
                     break
                 elif response.strip() == entry[1]:
                     print "There we go!"
@@ -207,6 +221,7 @@ class MorseCLI:
                     elif count == 2:
                         self._morseGame.increaseScore(25)
                     gotIt = True
+                    self.clearScreen()
                     break
                 else:
                     count += 1
@@ -220,6 +235,9 @@ class MorseCLI:
                 print "The answer was: " + entry[1]
                 print "You'll get it next time!"
                 self._morseGame.decreaseScore(50)
+
+    def clearScreen(self):
+        absolutely_unused_variable = os.system('cls' if os.name=='nt' else 'clear')
 
 def main():
     name = raw_input("Hi! My name is Sam.  What is your name?\n")
