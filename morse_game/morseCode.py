@@ -203,16 +203,19 @@ class MorseCode:
     def getRandomMorse(self):
         """
         Return a random Morse character
-        :return: A string of morse code
+        :return: List where the first item is the morse string, the second is the letter
         """
-        return random.choice(self._m2l.keys())
+        morse = random.choice(self._m2l.keys())
+        return [morse, self._m2l[morse]]
 
     def getRandomLetter(self):
         """
         Return a random character
-        :return: A string with a single character in it
+        :return: List where the first item is the letter, the second is the morse string
         """
-        return random.choice(self._l2m.keys())
+        letter = random.choice(self._l2m.keys())
+        return [letter, self._l2m[letter]]
+
 
 def main():
     morse = MorseCode()

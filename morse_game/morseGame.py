@@ -23,3 +23,26 @@ class MorseGame:
 
     def getGames(self):
         return self._games
+
+    def encode(self, alphaString):
+        return self._morseCoder.translateString(alphaString)
+
+    def decode(self, morseString):
+        return self._morseCoder.translateMorseString(morseString)
+
+    def getRandomLetter(self):
+        res = self._morseCoder.getRandomLetter()
+
+        if res[0] == " ":
+            res = self._morseCoder.getRandomLetter()
+
+        return res
+
+    def getScore(self):
+        return self._score
+
+    def increaseScore(self, amt):
+        self._score = self._score + amt
+
+    def decreaseScore(self, amt):
+        self._score = self._score - amt

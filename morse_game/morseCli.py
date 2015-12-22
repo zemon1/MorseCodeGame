@@ -8,25 +8,124 @@ class MorseCLI:
     def __init__(self, playerName):
         self._morseGame = MorseGame(playerName)
 
-    def play(self):
+    def printGames(self, games):
         print "Here are the games I know.  Pick one by entering the number next to the game you want to play!  " \
               "If you are done, just type the letter N or -."
 
-        games = self._morseGame.getGames()
         for i in range(len(games)):
             print str(i) + ". " + games[i]
 
+    def play(self):
+        games = self._morseGame.getGames()
+        self.printGames(games)
+
         choice = raw_input()
         while True:
-            if choice.lower() == 'n' or choice == '-.':
+            if self.exitCondition(choice):
                 exit(0)
             elif choice.isdigit() and int(choice) >= 0 and int(choice) < len(games):
                 choice = int(choice)
-                break
+                self.playGame(games[choice])
             else:
                 choice = raw_input("I need an integer that is in the list.  I can be very persistent.\n")
 
+            print "Want to play again?"
+            self.printGames(games)
+            choice = raw_input()
 
+    def exitCondition(self, choice):
+        if choice.lower() == 'n' or choice == '-.':
+            return True
+        return False
+
+    def playGame(self, gameChoice):
+
+        if gameChoice == "Encoder":
+            self.encoder()
+        elif gameChoice == "Decoder":
+            self.decoder()
+        elif gameChoice == "Learn the Letter":
+            self.learnLetter()
+        elif gameChoice == "Test Letters":
+            self.testLetter()
+        elif gameChoice == "Test Morse":
+            self.testMorse()
+        elif gameChoice == "Test Knowledge":
+            self.testKnowledge()
+
+    def encoder(self):
+        aString = raw_input("I am really good at Morse Code!  What would you like me to translate?\n")
+        mString = self._morseGame.encode(aString)
+        print "Hmm, let me think about that a second... hmm... Carry the 1... annnnddddddd, here you go"
+        print mString
+        print "\n"
+
+    def decoder(self):
+        mString = raw_input("I am really good at Morse Code!  What would you like me to translate?\n")
+        aString = self._morseGame.decode(mString)
+        print "Oh, that is a good one!  Here you go:"
+        print aString
+        print "\n"
+
+    def learnLetter(self):
+        print "When you are done, type N or -."
+
+        while True:
+            print "Do you know this one?"
+
+            letter = self._morseGame.getRandomLetter()
+
+            print letter[0] + " = " + letter[1]
+
+            choice = raw_input()
+            if self.exitCondition(choice):
+                break
+
+
+
+    def testLetter(self):
+        print "I'll give you the letter, you give me the morse code!  You get 100pts if you get it on the first try" \
+              "Then 50 for the second, 25 for the 3rd, and after that you lose 50 pts!  Good luck!  When you are done, type Done"
+
+        while True:
+            print "Ha!  Here is a hard one!"
+            entry = self._morseGame.getRandomLetter()
+
+            count = 0
+            gotIt = False
+            while count < 3:
+                print "Score: " + str(self._morseGame.getScore())
+                print entry[0]
+                response = raw_input()
+                if response.strip() == entry[1] and count == 0:
+                    print "Nice job!  First try!"
+                    self._morseGame.increaseScore(100)
+                    gotIt = True
+                    break
+                elif response.strip() == entry[1]:
+                    print "There we go!"
+
+                    if count == 1:
+                        self._morseGame.increaseScore(50)
+                    elif count == 2:
+                        self._morseGame.increaseScore(25)
+                    break
+                else:
+                    count += 1
+                    if count < 3:
+                        print "Try Again"
+
+            if not gotIt:
+                print "The answer was: " + entry[1]
+                print "You'll get it next time!"
+                self._morseGame.decreaseScore(50)
+
+
+    def testMorse(self):
+        pass
+
+    def testKnowledge(self):
+        pass
 
 def main():
     name = raw_input("Hi! My name is Sam.  What is your name?\n")
