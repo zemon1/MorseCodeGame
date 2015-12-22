@@ -31,10 +31,31 @@ class MorseGame:
         return self._morseCoder.translateMorseString(morseString)
 
     def getRandomLetter(self):
-        res = self._morseCoder.getRandomLetter()
-
-        if res[0] == " ":
+        space = True
+        while space:
             res = self._morseCoder.getRandomLetter()
+            if res[0] != " ":
+                space = False
+
+        return res
+
+    def getRandomMorse(self):
+        space = True
+        while space:
+            res = self._morseCoder.getRandomMorse()
+
+            if res[0] != " " and res[0] != "   ":
+                space = False
+
+        return res
+
+    def getRandomPair(self):
+        space = True
+        while space:
+            res = self._morseCoder.getRandomPair()
+
+            if res[0] != " " and res[0] != "   ":
+                space = False
 
         return res
 

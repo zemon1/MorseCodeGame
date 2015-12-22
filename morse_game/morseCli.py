@@ -81,8 +81,6 @@ class MorseCLI:
             if self.exitCondition(choice):
                 break
 
-
-
     def testLetter(self):
         print "I'll give you the letter, you give me the morse code!  You get 100pts if you get it on the first try" \
               "Then 50 for the second, 25 for the 3rd, and after that you lose 50 pts!  Good luck!  When you are done, type Done"
@@ -93,11 +91,16 @@ class MorseCLI:
 
             count = 0
             gotIt = False
+            quitGame = False
             while count < 3:
                 print "Score: " + str(self._morseGame.getScore())
                 print entry[0]
                 response = raw_input()
-                if response.strip() == entry[1] and count == 0:
+
+                if response.strip().lower() == "done":
+                    quitGame = True
+                    break
+                elif response.strip() == entry[1] and count == 0:
                     print "Nice job!  First try!"
                     self._morseGame.increaseScore(100)
                     gotIt = True
@@ -109,11 +112,16 @@ class MorseCLI:
                         self._morseGame.increaseScore(50)
                     elif count == 2:
                         self._morseGame.increaseScore(25)
+
+                    gotIt = True
                     break
                 else:
                     count += 1
                     if count < 3:
                         print "Try Again"
+
+            if quitGame:
+                break
 
             if not gotIt:
                 print "The answer was: " + entry[1]
@@ -122,10 +130,96 @@ class MorseCLI:
 
 
     def testMorse(self):
-        pass
+        print "I'll give you the morse code, you give me the letter!  You get 100pts if you get it on the first try" \
+              "Then 50 for the second, 25 for the 3rd, and after that you lose 50 pts!  Good luck!  When you are done, type Done"
+
+        while True:
+            print "Ha!  Here is a hard one!"
+            entry = self._morseGame.getRandomMorse()
+
+            count = 0
+            gotIt = False
+            quitGame = False
+            while count < 3:
+                print "Score: " + str(self._morseGame.getScore())
+                print entry[0]
+                response = raw_input().upper()
+                if response.strip().lower() == "done":
+                    quitGame = True
+                    break
+                elif response.strip() == entry[1] and count == 0:
+                    print "Nice job!  First try!"
+                    self._morseGame.increaseScore(100)
+                    gotIt = True
+                    break
+                elif response.strip() == entry[1]:
+                    print "There we go!"
+
+                    if count == 1:
+                        self._morseGame.increaseScore(50)
+                    elif count == 2:
+                        self._morseGame.increaseScore(25)
+                    gotIt = True
+                    break
+                else:
+                    count += 1
+                    if count < 3:
+                        print "Try Again"
+
+            if quitGame:
+                break
+
+            if not gotIt:
+                print "The answer was: " + entry[1]
+                print "You'll get it next time!"
+                self._morseGame.decreaseScore(50)
+
 
     def testKnowledge(self):
-        pass
+        print "I'll give you something, you give me the translation!  You get 100pts if you get it on the first try" \
+              "Then 50 for the second, 25 for the 3rd, and after that you lose 50 pts!  Good luck!  When you are done, type Done"
+
+        while True:
+            print "Ha!  Here is a hard one!"
+            choices = []
+            entry = self._morseGame.getRandomPair()
+
+            count = 0
+            gotIt = False
+            quitGame = False
+            while count < 3:
+                print "Score: " + str(self._morseGame.getScore())
+                print entry[0]
+                response = raw_input().upper()
+                if response.strip().lower() == "done":
+                    quitGame = True
+                    break
+                elif response.strip() == entry[1] and count == 0:
+                    print "Nice job!  First try!"
+                    self._morseGame.increaseScore(100)
+                    gotIt = True
+                    break
+                elif response.strip() == entry[1]:
+                    print "There we go!"
+
+                    if count == 1:
+                        self._morseGame.increaseScore(50)
+                    elif count == 2:
+                        self._morseGame.increaseScore(25)
+                    gotIt = True
+                    break
+                else:
+                    count += 1
+                    if count < 3:
+                        print "Try Again"
+
+            if quitGame:
+                break
+
+            if not gotIt:
+                print "The answer was: " + entry[1]
+                print "You'll get it next time!"
+                self._morseGame.decreaseScore(50)
 
 def main():
     name = raw_input("Hi! My name is Sam.  What is your name?\n")

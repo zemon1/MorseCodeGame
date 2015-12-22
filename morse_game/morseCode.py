@@ -216,6 +216,15 @@ class MorseCode:
         letter = random.choice(self._l2m.keys())
         return [letter, self._l2m[letter]]
 
+    def getRandomPair(self):
+        """
+        Return a random character
+        :return: List where the first item is the letter or morse, the second is the translation:
+        """
+        pair = [self.getRandomLetter(), self.getRandomMorse()]
+
+        return random.choice(pair)
+
 
 def main():
     morse = MorseCode()
